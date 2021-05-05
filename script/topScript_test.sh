@@ -24,8 +24,8 @@
 # Uncomment a line to test the corresponding function, otherwise comment it
 
 # FORMAT
-# test_script function_name lib_version inputs_precision output_precision number_of_inputs testing_depth optimization [rounding mode]
-# ./script/test.sh [f32_add, f32_eq, ...] [std, nd] [32, 64] [32, 64]] [1, 2] [1, 2] [size, performance] [ , -rminMag]
+# test_script      | function_name          | lib_version | skip_testfloat | inputs_precision | output_precision | number_of_inputs | testing_depth | optimization        | [rounding mode]
+# ./script/test.sh | [f32_add, f32_eq, ...] | [std, nd]   | [0, 1]         | [32, 64]         | [32, 64]]        | [1, 2]           | [1, 2]        | [size, performance] | [ , -rminMag]
 
 # Hardcode this variable to optimize on performance or on size, otherwise it's up to the caller.
 LIB_OPT=$1
