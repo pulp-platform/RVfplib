@@ -21,6 +21,10 @@
 # rvfplib Makefile
 # Build the default lib optimized for performance (librvfp.a), and the lib optimized for size (librvfp_s.a), in both the standard and non-subnormal versions
 
+###############
+## Variables ##
+###############
+
 LIB_NAME       := librvfp
 LIB_ND_NAME    := librvfp_nd
 
@@ -56,20 +60,28 @@ DUMP_ND        := $(LIB_DIR)/$(LIB_ND_NAME).dump
 DUMP_S         := $(LIB_DIR)/$(LIB_NAME)_s.dump
 DUMP_ND_S      := $(LIB_DIR)/$(LIB_ND_NAME)_s.dump
 
+#####################
+## Targets&Recipes ##
+#####################
+
 .PHONY: all
 .PHONY: size
 .PHONY: performance
 .PHONY: clean
 .PHONY: build_dirs
 
+# Build all the 4 libraries, by default
 all: performance size
 
+# Targets for the performance-optimized libraries
 performance: CCFLAGS += $(PERF_FLAG)
 performance: build_dirs $(LIB) $(LIB_ND) $(DUMP) $(DUMP_ND)
 
+# Targets for the size-optimized libraries
 size: CCFLAGS += $(SIZE_FLAG)
 size: build_dirs $(LIB_S) $(LIB_ND_S) $(DUMP_S) $(DUMP_ND_S)
 
+# Disassemble the libraries
 $(DUMP): $(LIB)
 	$(OBJDUMP) -xD $^ > $@
 $(DUMP_ND): $(LIB_ND)
@@ -80,6 +92,7 @@ $(DUMP_S): $(LIB_S)
 $(DUMP_ND_S): $(LIB_ND_S)
 	$(OBJDUMP) -xD $^ > $@
 
+# Build the libraries
 $(LIB): $(OBJ_FILES)
 	$(AR) rcs $@ $^
 $(LIB_ND): $(OBJ_ND_FILES)
@@ -90,6 +103,7 @@ $(LIB_S): $(OBJ_S_FILES)
 $(LIB_ND_S): $(OBJ_ND_S_FILES)
 	$(AR) rcs $@ $^
 
+# Compile the functions
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.S
 	$(CC) $(CCFLAGS) -c $< -o $@
 $(OBJ_ND_DIR)/%.o: $(SRC_ND_DIR)/%.S
@@ -100,8 +114,10 @@ $(OBJ_S_DIR)/%.o: $(SRC_DIR)/%.S
 $(OBJ_ND_S_DIR)/%.o: $(SRC_ND_DIR)/%.S
 	$(CC) $(CCFLAGS) -c $< -o $@
 
+# Create the directory tree
 build_dirs:
 	mkdir -p $(OBJ_DIR) $(OBJ_ND_DIR) $(OBJ_S_DIR) $(OBJ_ND_S_DIR) $(LIB_DIR)
 
+# Clean the files
 clean:
 	rm -rf $(BUILD_DIR)
