@@ -70,7 +70,9 @@ It's possible to select which function to test commenting/un-commenting the rela
 
 Then, from `$(BASE_DIR)`, launch:
 
-``./script/topScript_test.sh``
+``./script/topScript_test.sh size`` - To test the size-optimized library
+
+``./script/topScript_test.sh performance`` - To test the performance-optimized library
 
 The test depends upon `riscv32-unknown-elf-` tools, `TestFloat` programs, `SPIKE`, `PK`, and Python3. The `TestFloat` programs and Python3 should be accessible from the shell. For the others, make sure to define and export the following variables before calling the script:
 
